@@ -1,0 +1,55 @@
+MIT License
+
+Copyright (c) 2024 SecureSphere Password Manager
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Additional Security Notice
+
+This software implements cryptographic functionality for password management and 
+secure storage. Users are responsible for:
+
+1. **Seed Phrase Security**: Securely storing and backing up their BIP39 seed phrases
+2. **PIN Security**: Using strong, unique PIN codes for quick access
+3. **Data Backup**: Maintaining secure backups of their credential data
+4. **Security Updates**: Keeping the extension updated with the latest security patches
+5. **Risk Understanding**: Understanding the inherent risks of password managers
+
+## Disclaimer
+
+The authors and contributors of this software:
+
+- Make no warranties about the security or reliability of this software
+- Are not responsible for any loss of data, credentials, or security breaches
+- Recommend users conduct their own security audits before use
+- Advise users to maintain independent backups of critical data
+
+## Cryptographic Notice
+
+This software contains cryptographic functionality. Users should:
+
+- Review the cryptographic implementations before use
+- Understand the security model and potential attack vectors
+- Comply with applicable export control and encryption regulations
+- Use this software in accordance with local laws and regulations
+
+By using this software, you acknowledge that you have read, understood, and 
+agree to these terms and conditions. 

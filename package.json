@@ -1,0 +1,87 @@
+{
+  "name": "securesphere-password-manager",
+  "version": "1.0.0",
+  "description": "A secure browser extension for password management with decentralized backup capabilities and advanced security features",
+  "type": "module",
+  "main": "background.js",
+  "author": "SecureSphere Team",
+  "license": "MIT",
+  "homepage": "https://github.com/your-username/securesphere-extension#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/securesphere-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/securesphere-extension/issues"
+  },
+  "keywords": [
+    "password-manager",
+    "browser-extension",
+    "security",
+    "encryption",
+    "bip39",
+    "crypto",
+    "decentralized",
+    "sia",
+    "privacy",
+    "wallet",
+    "chrome-extension",
+    "firefox-addon"
+  ],
+  "files": [
+    "lib/",
+    "icons/",
+    "dist/",
+    "docs/",
+    "manifest.json",
+    "popup.html",
+    "popup.js",
+    "background.js",
+    "content.js",
+    "config.js",
+    "tsconfig.json",
+    "webpack.config.js",
+    ".env.example"
+  ],
+  "dependencies": {
+    "@noble/ciphers": "^1.2.1",
+    "@noble/ed25519": "^2.2.3",
+    "@noble/hashes": "^1.7.1",
+    "bip39": "^3.1.0",
+    "crypto-js": "^4.1.1",
+    "idb": "^8.0.2",
+    "memory-level": "^3.0.0",
+    "msgpackr": "^1.11.2",
+    "rxjs": "^7.8.2"
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist/",
+    "prepare": "npm run build",
+    "docs": "echo \"Documentation available in docs/ folder\""
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "babel-loader": "^10.0.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.1",
+    "multibase": "^4.0.6",
+    "multiformats": "^13.3.2",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.2",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

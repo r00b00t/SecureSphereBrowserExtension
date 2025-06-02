@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    /* Dark Theme Variables with Green Accents */
+    :root {
+      --primary-green: #2e7d32;
+      --primary-green-dark: #1b5e20;
+      --primary-green-light: #4caf50;
+      --accent-green-light: #a5d6a7;
+      --background-dark: #121212;
+      --surface-dark: #1e1e1e;
+      --surface-dark-lighter: #2d2d2d;
+      --text-primary: #e0e0e0;
+      --text-secondary: #a0a0a0;
+      --border-dark: #333333;
+      --border-green-light: #2e7d32;
+      --error-color: #f44336;
+      --warning-color: #ffc107;
+      --success-color: #28a745;
+    }
+    
+    /* Animation Keyframes */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+    }
+    
+    body {
+      width: 380px;
+      min-height: 500px;
+      padding: 0;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--background-dark) 0%, #1a1a1a 100%);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    /* Welcome Screen Styles */
+    .welcome-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 500px;
+      background: linear-gradient(135deg, var(--background-dark) 0%, #1a1a1a 100%);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .welcome-header {
+      background: linear-gradient(45deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .welcome-header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .welcome-header p {
+      margin: 8px 0 0 0;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .auth-options {
+      flex: 1;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 300px;
+      background: var(--surface-dark);
+      border: 2px solid var(--border-dark);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-card:hover {
+      border-color: var(--primary-green);
+      background: var(--surface-dark-lighter);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(46, 125, 50, 0.2);
+    }
+
+    .auth-card.new-user {
+      background: linear-gradient(135deg, #1a3a1c 0%, #2d4f2f 100%);
+    }
+
+    .auth-card.returning-user {
+      background: linear-gradient(135deg, #1a2540 0%, #2d3f5f 100%);
+    }
+
+    .auth-card-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 16px;
+      background: var(--primary-green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+    }
+
+    .auth-card.returning-user .auth-card-icon {
+      background: #1976d2;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+    }
+
+    .auth-card h3 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .auth-card p {
+      margin: 0 0 20px 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .auth-card-button {
+      width: 100%;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: var(--primary-green);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .auth-card.returning-user .auth-card-button {
+      background: #1976d2;
+    }
+
+    .auth-card-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .auth-card.new-user .auth-card-button:hover {
+      background: var(--primary-green-dark);
+    }
+
+    .auth-card.returning-user .auth-card-button:hover {
+      background: #1565c0;
+    }
+
+    /* Auth Form Styles */
+    .auth-form-container {
+      display: none;
+      min-height: 500px;
+      background: var(--background-dark);
+      animation: slideUp 0.4s ease-out;
+    }
+
+    .auth-form-header {
+      background: linear-gradient(45deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .auth-form-header h2 {
+      margin: 0;
+      color: white;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .auth-form-content {
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--border-dark);
+      border-radius: 8px;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+      background-color: var(--surface-dark);
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+    }
+
+    .form-group textarea {
+      min-height: 80px;
+      resize: vertical;
+      font-family: monospace;
+      line-height: 1.4;
+    }
+
+    .seed-phrase-display {
+      background: var(--surface-dark-lighter);
+      border: 2px dashed var(--primary-green);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      word-break: break-all;
+      color: var(--primary-green-light);
+      text-align: center;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary-green);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-green-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface-dark-lighter);
+      color: var(--text-primary);
+      border: 2px solid var(--border-dark);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary-green);
+      background: var(--surface-dark);
+    }
+
+    .security-warning {
+      background: rgba(255, 152, 0, 0.1);
+      border: 2px solid var(--warning-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 20px 0;
+    }
+
+    .security-warning h4 {
+      margin: 0 0 8px 0;
+      color: var(--warning-color);
+      font-size: 14px;
+    }
+
+    .security-warning p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .pin-input {
+      text-align: center;
+      font-size: 18px;
+      letter-spacing: 4px;
+      font-weight: 600;
+    }
+
+    .error-message {
+      background: rgba(244, 67, 54, 0.1);
+      border: 2px solid var(--error-color);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 16px 0;
+      color: var(--error-color);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .success-message {
+      background: rgba(40, 167, 69, 0.15);
+      border: 2px solid var(--success-color);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 16px 0;
+      color: #ffffff;
+      font-size: 14px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Main App Styles */
+    .main-app {
+      display: none;
+      padding: 0;
+      background: linear-gradient(135deg, var(--background-dark) 0%, #1a1a1a 100%);
+      min-height: 500px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .header-actions {
+      background: linear-gradient(45deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0;
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .user-info {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+    }
+
+    .settings-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .settings-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .main-content {
+      padding: 20px;
+    }
+
+    /* Modern Card Styles */
+    .feature-card {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary-green);
+      background: var(--surface-dark-lighter);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(46, 125, 50, 0.15);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(45deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Enhanced Form Styles */
+    .modern-form {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .modern-form::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+    }
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-dark);
+    }
+
+    .form-header h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Enhanced Input Styles */
+    .modern-form .form-group input, 
+    .modern-form .form-group textarea,
+    .modern-form .form-group select {
+      background: var(--surface-dark-lighter);
+      border: 2px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text-primary);
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .modern-form .form-group input:focus, 
+    .modern-form .form-group textarea:focus,
+    .modern-form .form-group select:focus {
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+      background: var(--surface-dark);
+    }
+
+    /* Enhanced Button Styles */
+    .btn-modern {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-modern.btn-primary {
+      background: linear-gradient(45deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+      color: white;
+    }
+
+    .btn-modern.btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+    }
+
+    .btn-modern.btn-secondary {
+      background: var(--surface-dark-lighter);
+      color: var(--text-primary);
+      border: 2px solid var(--border-dark);
+    }
+
+    .btn-modern.btn-secondary:hover {
+      border-color: var(--primary-green);
+      background: var(--surface-dark);
+    }
+
+    /* Enhanced List Styles */
+    .modern-list {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .list-header {
+      background: linear-gradient(45deg, var(--surface-dark-lighter) 0%, var(--surface-dark) 100%);
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .list-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .list-content {
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 8px;
+    }
+
+    /* Enhanced Password/Wallet Item Styles */
+    .modern-item {
+      background: var(--surface-dark-lighter);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .modern-item:hover {
+      background: #2a3b2c;
+      border-color: var(--primary-green);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .item-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-sm {
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      background: var(--surface-dark-lighter);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-dark);
+    }
+
+    .btn-sm:hover {
+      background: var(--surface-dark);
+      color: var(--text-primary);
+      border-color: var(--primary-green);
+    }
+
+    .btn-sm.toggle-password-btn,
+    .btn-sm.toggle-seed-btn {
+      background: var(--surface-dark-lighter);
+      color: var(--text-secondary);
+      min-width: 50px;
+    }
+
+    .btn-sm.toggle-password-btn:hover,
+    .btn-sm.toggle-seed-btn:hover {
+      background: #1976d2;
+      color: white;
+      border-color: #1976d2;
+    }
+
+    .btn-sm.copy-btn {
+      background: var(--surface-dark-lighter);
+      color: var(--text-secondary);
+      min-width: 45px;
+    }
+
+    .btn-sm.copy-btn:hover {
+      background: #6a1b9a;
+      color: white;
+      border-color: #6a1b9a;
+    }
+
+    .btn-sm.btn-danger {
+      background: var(--surface-dark-lighter);
+      color: var(--text-secondary);
+    }
+
+    .btn-sm.btn-danger:hover {
+      background: var(--error-color);
+      color: white;
+      border-color: var(--error-color);
+    }
+
+    .btn-sm:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
+    }
+
+    /* Disabled state for buttons */
+    .btn-sm:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-sm:disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Enhanced Search Styles */
+    .search-container {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .search-container input {
+      width: 100%;
+      background: var(--surface-dark-lighter);
+      border: 2px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text-primary);
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .search-container input:focus {
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+      background: var(--surface-dark);
+    }
+
+    /* Hide these for now, will be shown when logged in */
+    .container {
+      display: none;
+    }
+
+    /* Password Strength Indicator */
+    .password-strength {
+      height: 4px;
+      margin-top: 8px;
+      border-radius: 2px;
+      background-color: var(--border-dark);
+      transition: all 0.3s ease;
+    }
+    .password-strength.weak { 
+      background: linear-gradient(90deg, #e57373 0%, #ef5350 100%);
+      width: 33%;
+    }
+    .password-strength.medium { 
+      background: linear-gradient(90deg, #ffb74d 0%, #ffa726 100%);
+      width: 66%;
+    }
+    .password-strength.strong { 
+      background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+      width: 100%;
+    }
+
+    /* Custom Scrollbar */
+    .list-content::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .list-content::-webkit-scrollbar-track {
+      background: var(--surface-dark-lighter);
+      border-radius: 10px;
+    }
+    
+    .list-content::-webkit-scrollbar-thumb {
+      background: var(--accent-green-light);
+      border-radius: 10px;
+    }
+    
+    .list-content::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-green-light);
+    }
+
+    /* Settings Modal Styles */
+    .settings-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      z-index: 1000;
+      display: none;
+    }
+
+    .settings-modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      width: 450px;
+      max-width: 95vw;
+      max-height: 90vh;
+      color: var(--text-primary);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .settings-modal-header {
+      background: linear-gradient(45deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+      padding: 20px;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .settings-modal-header h3 {
+      margin: 0;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .close-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s ease;
+    }
+
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .settings-modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    /* Custom scrollbar for settings modal */
+    .settings-modal-body::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .settings-modal-body::-webkit-scrollbar-track {
+      background: var(--surface-dark-lighter);
+      border-radius: 10px;
+    }
+    
+    .settings-modal-body::-webkit-scrollbar-thumb {
+      background: var(--primary-green);
+      border-radius: 10px;
+    }
+    
+    .settings-modal-body::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-green-light);
+    }
+
+    .settings-section {
+      margin-bottom: 20px;
+    }
+
+    .settings-section h4 {
+      margin: 0 0 12px 0;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--primary-green);
+      font-weight: 600;
+    }
+
+    .settings-section:not(:last-child) {
+      border-bottom: 1px solid var(--border-dark);
+      padding-bottom: 20px;
+    }
+
+    /* Backup Storage Configuration */
+    .backup-config-section {
+      margin-bottom: 20px;
+      padding: 16px;
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      background: var(--surface-dark-lighter);
+    }
+
+    .info-card, .warning-card {
+      display: flex;
+      align-items: flex-start;
+      background: var(--surface-dark-lighter);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .warning-card {
+      border-color: var(--warning-color);
+      background: rgba(255, 193, 7, 0.1);
+    }
+
+    .info-icon, .warning-icon {
+      font-size: 20px;
+      margin-right: 12px;
+      min-width: 24px;
+    }
+
+    .info-icon {
+      color: var(--primary-green);
+    }
+
+    .warning-icon {
+      color: var(--warning-color);
+    }
+
+    .info-text, .warning-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .status-message {
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .status-message.success {
+      background: rgba(40, 167, 69, 0.15);
+      border: 1px solid var(--success-color);
+      color: #ffffff;
+      display: block;
+      font-weight: 500;
+    }
+
+    .status-message.error {
+      background: rgba(220, 53, 69, 0.1);
+      border: 1px solid var(--error-color);
+      color: var(--error-color);
+      display: block;
+    }
+
+    .command-output {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .command-text {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--primary-green-light);
+      word-break: break-all;
+      background: var(--background-dark);
+      padding: 8px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    .test-connection-btn {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    /* Security Settings */
+    .security-card {
+      margin-bottom: 24px;
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .security-header {
+      background: var(--surface-dark-lighter);
+      padding: 16px;
+      border-bottom: 1px solid var(--border-dark);
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .security-icon {
+      font-size: 20px;
+      margin-right: 12px;
+      color: var(--primary-green);
+      min-width: 24px;
+    }
+
+    .security-description {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .security-card .form-group {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+
+    .security-card .form-group:first-of-type {
+      padding-top: 16px;
+    }
+
+    .security-card .btn-modern {
+      margin: 0 16px 16px 16px;
+      width: calc(100% - 32px);
+    }
+
+    .pin-input {
+      font-family: monospace;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .help-text {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Checkbox Styling */
+    .checkbox-group {
+      padding: 0 16px;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      margin-right: 8px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary-green);
+    }
+
+    /* Button Variants */
+    .btn-modern.btn-primary {
+      background: var(--primary-green);
+      color: white;
+    }
+
+    .btn-modern.btn-primary:hover {
+      background: var(--primary-green-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-modern.btn-secondary {
+      background: var(--surface-dark-lighter);
+      color: var(--text-primary);
+      border: 1px solid var(--border-dark);
+    }
+
+    .btn-modern.btn-secondary:hover {
+      background: var(--border-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-modern.btn-warning {
+      background: var(--warning-color);
+      color: var(--background-dark);
+    }
+
+    .btn-modern.btn-warning:hover {
+      background: #e0a800;
+      transform: translateY(-1px);
+    }
+
+    .btn-modern.btn-danger {
+      background: var(--error-color);
+      color: white;
+    }
+
+    .btn-modern.btn-danger:hover {
+      background: #c82333;
+      transform: translateY(-1px);
+    }
+
+    .save-settings-btn {
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    /* Data Management */
+    .data-actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .data-btn {
+      flex: 1;
+      padding: 10px 16px;
+      min-width: 120px;
+    }
+
+    /* About Section */
+    .about-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+      padding: 16px;
+      background: var(--surface-dark-lighter);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+    }
+
+    .about-item {
+      text-align: center;
+    }
+
+    .about-label {
+      display: block;
+      font-weight: 500;
+      color: var(--text-secondary);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .about-value {
+      display: block;
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Danger Zone */
+    .danger-zone {
+      border-top: 2px solid var(--error-color);
+      padding-top: 20px;
+    }
+
+    .danger-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .danger-actions .btn-modern {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    /* Button Loading States */
+    .btn-text {
+      display: inline;
+    }
+
+    .btn-loading {
+      display: none;
+    }
+
+    .btn-modern.loading .btn-text {
+      display: none;
+    }
+
+    .btn-modern.loading .btn-loading {
+      display: inline;
+    }
+
+    /* Form improvements */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      background: var(--surface-dark);
+      color: var(--text-primary);
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.1);
+    }
+
+    .section-description {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    /* Ensure buttons and inputs are properly sized in settings */
+    .settings-modal .btn-modern {
+      min-height: 40px;
+      font-size: 14px;
+    }
+
+    .settings-modal .form-control {
+      min-height: 40px;
+    }
+
+    /* Improve spacing for better readability */
+    .backup-config-section {
+      margin-bottom: 20px;
+      padding: 16px;
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      background: var(--surface-dark-lighter);
+    }
+
+    .security-card {
+      margin-bottom: 24px;
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .security-card .form-group {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+
+    .security-card .form-group:first-of-type {
+      padding-top: 16px;
+    }
+
+    .security-card .btn-modern {
+      margin: 0 16px 16px 16px;
+      width: calc(100% - 32px);
+    }
+
+    /* Improve data management buttons layout */
+    .data-actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .data-btn {
+      flex: 1;
+      padding: 10px 16px;
+      min-width: 120px;
+    }
+
+    /* Better spacing for about section */
+    .about-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+      padding: 16px;
+      background: var(--surface-dark-lighter);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+    }
+
+    /* Improve danger zone layout */
+    .danger-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .danger-actions .btn-modern {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    /* Breach Monitoring Styles */
+    .breach-summary {
+      background: var(--surface-dark-lighter);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid var(--border-dark);
+    }
+
+    .detection-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .detection-icon {
+      font-size: 32px;
+      background: linear-gradient(45deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+    }
+
+    .detection-info {
+      flex: 1;
+    }
+
+    .detection-label {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .detection-count {
+      color: var(--text-primary);
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1;
+      margin: 4px 0;
+    }
+
+    .detection-subtitle {
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .breach-result-item {
+      background: var(--surface-dark-lighter);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .breach-result-item:hover {
+      border-color: var(--primary-green);
+      background: var(--surface-dark);
+    }
+
+    .breach-result-header {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .breach-result-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .breach-result-icon.safe {
+      background: rgba(40, 167, 69, 0.15);
+      color: var(--success-color);
+    }
+
+    .breach-result-icon.warning {
+      background: rgba(255, 193, 7, 0.15);
+      color: var(--warning-color);
+    }
+
+    .breach-result-icon.danger {
+      background: rgba(220, 53, 69, 0.15);
+      color: var(--error-color);
+    }
+
+    .breach-result-content {
+      flex: 1;
+    }
+
+    .breach-result-email {
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .breach-result-summary {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .breach-result-summary span {
+      color: var(--text-secondary);
+    }
+
+    .breach-count {
+      color: var(--warning-color);
+      font-weight: 600;
+    }
+
+    .risk-level {
+      color: var(--error-color);
+      font-weight: 600;
+    }
+
+    .breach-details {
+      background: var(--background-dark);
+      border-top: 1px solid var(--border-dark);
+      padding: 16px;
+      display: none;
+    }
+
+    .breach-details.expanded {
+      display: block;
+    }
+
+    .breach-item {
+      background: var(--surface-dark-lighter);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .breach-item-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .breach-item-title {
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .breach-item-detail {
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .stats-card {
+      background: var(--surface-dark-lighter);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .stat-icon {
+      font-size: 20px;
+    }
+
+    .stat-info {
+      flex: 1;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .recent-breach-item {
+      background: var(--surface-dark-lighter);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 8px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .recent-breach-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--primary-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .recent-breach-content {
+      flex: 1;
+    }
+
+    .recent-breach-title {
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .recent-breach-domain {
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .recent-breach-date {
+      color: var(--text-secondary);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .recent-breach-description {
+      color: var(--text-primary);
+      font-size: 12px;
+      line-height: 1.4;
+      opacity: 0.85;
+    }
+
+    .loading-text {
+      color: var(--text-secondary);
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+    }
+
+    .error-text {
+      color: var(--error-color);
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Welcome Screen for New/Returning Users -->
+  <div id="welcomeScreen" class="welcome-container">
+    <div class="welcome-header">
+      <h1>🔐 SecureSphere</h1>
+      <p>Enterprise-grade password manager with zero-knowledge security</p>
+    </div>
+    
+    <div class="auth-options">
+      <div class="auth-card new-user" id="newUserCard">
+        <div class="auth-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <line x1="19" y1="8" x2="19" y2="14"></line>
+            <line x1="22" y1="11" x2="16" y2="11"></line>
+          </svg>
+        </div>
+        <h3>Create New Wallet</h3>
+        <p>First time using SecureSphere? Create a new secure wallet with a unique seed phrase.</p>
+        <button class="auth-card-button">Get Started</button>
+      </div>
+
+      <div class="auth-card returning-user" id="returningUserCard">
+        <div class="auth-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
+        </div>
+        <h3>Access My Vault</h3>
+        <p>Already have a SecureSphere wallet? Login with your seed phrase or PIN.</p>
+        <button class="auth-card-button">Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New User Setup Flow -->
+  <div id="newUserForm" class="auth-form-container">
+    <div class="auth-form-header">
+      <button class="back-button" id="backToWelcomeFromNew">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <h2>Create New Wallet</h2>
+    </div>
+    
+    <div class="auth-form-content">
+      <div class="security-warning">
+        <h4>🔒 Security Notice</h4>
+        <p>Your seed phrase is the master key to your vault. Store it safely offline and never share it with anyone.</p>
+      </div>
+
+      <div class="form-group">
+        <label>Your Secure Seed Phrase</label>
+        <div class="seed-phrase-display" id="generatedSeedPhrase">
+          Click "Generate New Seed Phrase" to create your secure wallet
+        </div>
+        <div class="action-buttons">
+          <button class="btn btn-secondary" id="generateNewSeed">Generate New Seed Phrase</button>
+          <button class="btn btn-secondary" id="copySeedPhrase" style="display: none;">Copy to Clipboard</button>
+        </div>
+        
+        <!-- Quick Access Option -->
+        <div id="quickAccessOption" style="display: none; margin-top: 20px;">
+          <div class="security-warning" style="background: rgba(76, 175, 80, 0.1); border-color: var(--success-color);">
+            <h4 style="color: var(--success-color);">✅ Seed Phrase Generated!</h4>
+            <p>You can either complete the full setup with PIN protection, or login immediately with your seed phrase.</p>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary" id="skipToLogin">Skip Setup & Login Now</button>
+            <button class="btn btn-secondary" id="continueSetup">Complete Setup with PIN</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="seedConfirmationStep" style="display: none;">
+        <div class="form-group">
+          <label for="confirmSeedInput">Confirm Your Seed Phrase</label>
+          <textarea id="confirmSeedInput" placeholder="Type your seed phrase here to confirm you've saved it securely" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="newUserPin">Create 6-Digit PIN</label>
+          <input type="password" id="newUserPin" class="pin-input" placeholder="••••••" maxlength="6" pattern="[0-9]*">
+        </div>
+
+        <div class="form-group">
+          <label for="confirmNewUserPin">Confirm PIN</label>
+          <input type="password" id="confirmNewUserPin" class="pin-input" placeholder="••••••" maxlength="6" pattern="[0-9]*">
+        </div>
+
+        <button class="btn btn-primary" id="createWalletBtn" style="width: 100%;">
+          <span id="createWalletText">Create My Secure Wallet</span>
+          <span id="createWalletLoading" style="display: none;"><span class="loading-spinner"></span> Creating wallet...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Returning User Login Flow -->
+  <div id="returningUserForm" class="auth-form-container">
+    <div class="auth-form-header">
+      <button class="back-button" id="backToWelcomeFromLogin">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <h2>Access Your Vault</h2>
+    </div>
+    
+    <div class="auth-form-content">
+      <!-- PIN Login (if user has PIN set) -->
+      <div id="pinLoginStep">
+        <div class="form-group">
+          <label for="loginPin">Enter Your PIN</label>
+          <input type="password" id="loginPin" class="pin-input" placeholder="••••••" maxlength="6" pattern="[0-9]*">
+        </div>
+        
+        <button class="btn btn-primary" id="loginWithPinBtn" style="width: 100%;">
+          <span id="pinLoginText">Access Vault</span>
+          <span id="pinLoginLoading" style="display: none;"><span class="loading-spinner"></span> Verifying...</span>
+        </button>
+        
+        <div style="text-align: center; margin-top: 16px;">
+          <a href="#" id="showSeedPhraseLogin" style="color: var(--primary-green); text-decoration: none; font-size: 14px;">
+            Login with seed phrase instead
+          </a>
+        </div>
+      </div>
+
+      <!-- Seed Phrase Login -->
+      <div id="seedPhraseLoginStep" style="display: none;">
+        <div class="form-group">
+          <label for="loginSeedPhrase">Enter Your Seed Phrase</label>
+          <textarea id="loginSeedPhrase" placeholder="Enter your 24-word seed phrase" rows="3"></textarea>
+        </div>
+        
+        <button class="btn btn-primary" id="loginWithSeedBtn" style="width: 100%;">
+          <span id="seedLoginText">Access Vault</span>
+          <span id="seedLoginLoading" style="display: none;"><span class="loading-spinner"></span> Verifying...</span>
+        </button>
+        
+        <div style="text-align: center; margin-top: 16px;">
+          <a href="#" id="showPinLogin" style="color: var(--primary-green); text-decoration: none; font-size: 14px;">
+            Login with PIN instead
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Application (shown after successful login) -->
+  <div id="mainApp" class="main-app">
+    <div class="header-actions">
+      <div class="user-info" id="userInfo">
+        <span id="userStatus">🔐 Logged in securely</span>
+      </div>
+      <button class="settings-btn" id="settingsBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        Settings
+      </button>
+    </div>
+    
+    <div class="main-content">
+      <!-- Add New Credential Card -->
+      <div class="feature-card modern-form">
+        <div class="form-header">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </div>
+          <h3>Add New Credential</h3>
+        </div>
+        <form id="addPasswordForm">
+          <div class="form-group">
+            <label for="credentialType">Credential Type</label>
+            <select id="credentialType" class="form-control">
+              <option value="login">Website Login</option>
+              <option value="wallet">Wallet Credentials</option>
+            </select>
+          </div>
+          <div id="loginFields">
+            <div class="form-group">
+              <label for="website">Website URL</label>
+              <input type="url" id="website" required placeholder="https://example.com">
+            </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" required placeholder="Enter username or email">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="password" id="password" required placeholder="Enter password" style="flex: 1;">
+                <button type="button" id="generatePasswordBtn" class="btn-modern btn-secondary" style="white-space: nowrap;">Generate</button>
+              </div>
+              <div class="password-strength" id="passwordStrength"></div>
+            </div>
+            <div id="passwordGeneratorOptions" style="display: none; background-color: var(--surface-dark-lighter); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid var(--border-dark);">
+              <h4 style="margin-top: 0; color: var(--text-primary);">Password Generator</h4>
+              <div class="form-group">
+                <label for="passwordLength">Length</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <input type="range" id="passwordLength" min="8" max="32" value="12" style="flex: 1;">
+                  <span id="passwordLengthValue" style="color: var(--text-primary); font-weight: 600; min-width: 24px;">12</span>
+                </div>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; gap: 6px; color: var(--text-primary);">
+                  <input type="checkbox" id="includeUppercase" checked>
+                  <span>A-Z</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; color: var(--text-primary);">
+                  <input type="checkbox" id="includeLowercase" checked>
+                  <span>a-z</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; color: var(--text-primary);">
+                  <input type="checkbox" id="includeNumbers" checked>
+                  <span>0-9</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; color: var(--text-primary);">
+                  <input type="checkbox" id="includeSymbols" checked>
+                  <span>!@#$%^&*</span>
+                </label>
+              </div>
+              <div id="generatedPasswordsList" style="margin-top: 10px;">
+                <!-- Generated passwords will appear here -->
+              </div>
+            </div>
+          </div>
+          <div id="walletFields" style="display: none;">
+            <div class="form-group">
+              <label for="walletName">Wallet Name</label>
+              <input type="text" id="walletName" placeholder="e.g., Metamask, Trust Wallet">
+            </div>
+            <div class="form-group">
+              <label for="walletSeedPhrase">Seed Phrase</label>
+              <textarea id="walletSeedPhrase" placeholder="Enter your wallet's seed phrase"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn-modern btn-primary" style="width: 100%;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            Save Credential
+          </button>
+        </form>
+      </div>
+
+      <!-- Search Card -->
+      <div class="search-container">
+        <input type="text" id="searchPasswords" placeholder="🔍 Search your credentials...">
+      </div>
+
+      <!-- Saved Passwords Card -->
+      <div class="feature-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <circle cx="12" cy="16" r="1"></circle>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <h3 class="card-title">Saved Passwords</h3>
+        </div>
+        <div class="modern-list">
+          <div class="list-content" id="passwordList">
+            <!-- Passwords will be populated here -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Wallet Seeds Card -->
+      <div class="feature-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.35 0 4.5.9 6.13 2.38L16 8"></path>
+              <polyline points="16 2 16 8 10 8"></polyline>
+            </svg>
+          </div>
+          <h3 class="card-title">Wallet Seed Phrases</h3>
+        </div>
+        <div class="modern-list">
+          <div class="list-content" id="walletSeedsList">
+            <!-- Wallet seeds will be populated here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Breach Monitoring Card -->
+      <div class="feature-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+          </div>
+          <h3 class="card-title">Breach Monitoring</h3>
+        </div>
+        
+        <!-- Detection Summary -->
+        <div id="breachSummary" class="breach-summary" style="margin-bottom: 16px;">
+          <div class="detection-card">
+            <div class="detection-icon">🛡️</div>
+            <div class="detection-info">
+              <div class="detection-label">Detections</div>
+              <div class="detection-count" id="detectionCount">-</div>
+              <div class="detection-subtitle">Breaches detected</div>
+            </div>
+          </div>
+        </div>
+
+        <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;">
+          Stay informed about recent security breaches and check if your credentials have been compromised.
+        </p>
+
+        <div class="breach-actions" style="margin-bottom: 16px;">
+          <button id="checkBreachesBtn" class="btn-modern btn-primary" style="width: 100%;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <span class="btn-text">Check My Credentials</span>
+            <span class="btn-loading" style="display: none;">Checking...</span>
+          </button>
+        </div>
+
+        <!-- Breach Results -->
+        <div id="breachResults" style="display: none;">
+          <h4 style="color: var(--text-primary); margin-bottom: 12px;">Breach Results</h4>
+          <div id="breachResultsList"></div>
+        </div>
+
+        <!-- Detection Statistics -->
+        <div id="breachStats" class="breach-stats" style="margin-top: 16px;">
+          <h4 style="color: var(--text-primary); margin-bottom: 12px;">Detection Statistics</h4>
+          <div class="stats-card">
+            <div class="stat-item">
+              <div class="stat-icon">⚠️</div>
+              <div class="stat-info">
+                <div class="stat-label">Active Breaches</div>
+                <div class="stat-value" id="activeBreaches">0</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">✅</div>
+              <div class="stat-info">
+                <div class="stat-label">Resolved</div>
+                <div class="stat-value" id="resolvedBreaches">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Breaches -->
+        <div id="recentBreaches" class="recent-breaches" style="margin-top: 20px;">
+          <h4 style="color: var(--text-primary); margin-bottom: 12px;">Recent Breaches</h4>
+          <div id="recentBreachesList">
+            <div class="loading-text" style="text-align: center; color: var(--text-secondary); padding: 20px;">
+              Loading recent breaches...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="settings-modal">
+    <div class="settings-modal-content">
+      <div class="settings-modal-header">
+        <h3>⚙️ Settings</h3>
+        <button class="close-btn" id="closeSettingsBtn">&times;</button>
+      </div>
+      <div class="settings-modal-body">
+        
+        <!-- Backup Storage Configuration -->
+        <div class="settings-section">
+          <h4>🔄 Backup Storage Configuration</h4>
+          <p class="section-description">Select where you want to store your encrypted backups:</p>
+          
+          <div class="form-group">
+            <label for="backupStorageType">Backup Storage Type</label>
+            <select id="backupStorageType" class="form-control">
+              <option value="securesphere">SecureSphere Decentralized Server</option>
+              <option value="sia">Self-Hosted SIA Node</option>
+              <option value="local">Local Storage Only</option>
+            </select>
+          </div>
+
+          <!-- SecureSphere Server Configuration -->
+          <div id="securesphereConfig" class="backup-config-section">
+            <div class="info-card">
+              <div class="info-icon">ℹ️</div>
+              <div>
+                <strong>SecureSphere Decentralized Server</strong><br>
+                <span class="info-text">Your data is encrypted and distributed across our secure decentralized network. Zero-knowledge architecture ensures only you can decrypt your data.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SIA Configuration -->
+          <div id="siaConfig" class="backup-config-section" style="display: none;">
+            <h5>🔗 Self-Hosted SIA Configuration</h5>
+            <div class="form-group">
+              <label for="siaIpAddress">IP Address</label>
+              <input type="text" id="siaIpAddress" placeholder="e.g., 192.168.1.100" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="siaPort">Port</label>
+              <input type="number" id="siaPort" placeholder="e.g., 9980" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="siaPassword">Password</label>
+              <input type="password" id="siaPassword" placeholder="SIA node password" class="form-control">
+            </div>
+            <div id="siaStatus" class="status-message"></div>
+            <div id="siaPutCommand" class="command-output" style="display: none;">
+              <label>PUT Command (copy and use in your terminal):</label>
+              <div class="command-text" id="siaPutCommandText"></div>
+            </div>
+            <button id="testSiaConnection" class="btn-modern btn-secondary test-connection-btn">
+              <span class="btn-text">🔗 Test Connection</span>
+              <span class="btn-loading" style="display: none;">⏳ Testing...</span>
+            </button>
+          </div>
+
+          <!-- Local Storage Configuration -->
+          <div id="localConfig" class="backup-config-section" style="display: none;">
+            <div class="warning-card">
+              <div class="warning-icon">⚠️</div>
+              <div>
+                <strong>Local Storage Only</strong><br>
+                <span class="warning-text">Your data will only be stored locally in this browser. You won't be able to sync across devices or recover data if the browser is cleared.</span>
+              </div>
+            </div>
+          </div>
+
+          <button id="saveBackupSettings" class="btn-modern btn-primary save-settings-btn">
+            💾 Save Backup Settings
+          </button>
+        </div>
+        
+        <!-- Security Settings -->
+        <div class="settings-section">
+          <h4>🔐 Security Settings</h4>
+          
+          <!-- PIN Management -->
+          <div class="security-card">
+            <div class="security-header">
+              <div class="security-icon">📱</div>
+              <div>
+                <h5>Change PIN</h5>
+                <p class="security-description">Your PIN is used to secure access to your account. Make sure to use a PIN that you can remember but is difficult for others to guess.</p>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="currentPin">Current PIN</label>
+              <input type="password" id="currentPin" placeholder="Enter current PIN" class="form-control pin-input" maxlength="6">
+            </div>
+            
+            <div class="form-group">
+              <label for="newPin">New PIN</label>
+              <input type="password" id="newPin" placeholder="Enter new PIN" class="form-control pin-input" maxlength="6">
+              <div class="help-text">PIN must be at least 4 digits</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="confirmNewPin">Confirm New PIN</label>
+              <input type="password" id="confirmNewPin" placeholder="Confirm new PIN" class="form-control pin-input" maxlength="6">
+            </div>
+            
+            <div id="pinChangeStatus" class="status-message"></div>
+            
+            <button id="changePinBtn" class="btn-modern btn-primary">
+              <span class="btn-text">🔄 Update PIN</span>
+              <span class="btn-loading" style="display: none;">⏳ Updating...</span>
+            </button>
+          </div>
+
+          <!-- Session Management -->
+          <div class="security-card">
+            <div class="security-header">
+              <div class="security-icon">⏰</div>
+              <div>
+                <h5>Session Settings</h5>
+                <p class="security-description">Configure how long you stay logged in before requiring re-authentication.</p>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="sessionTimeout">Session Timeout</label>
+              <select id="sessionTimeout" class="form-control">
+                <option value="15">15 minutes</option>
+                <option value="30" selected>30 minutes</option>
+                <option value="60">1 hour</option>
+                <option value="120">2 hours</option>
+                <option value="240">4 hours</option>
+              </select>
+              <div class="help-text">How long to stay logged in without activity</div>
+            </div>
+          </div>
+
+          <!-- Auto-lock Settings -->
+          <div class="security-card">
+            <div class="security-header">
+              <div class="security-icon">🔒</div>
+              <div>
+                <h5>Auto-lock Settings</h5>
+                <p class="security-description">Automatically lock your vault when certain conditions are met.</p>
+              </div>
+            </div>
+            
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="lockOnClose" checked>
+                <span class="checkmark"></span>
+                Lock when browser closes
+              </label>
+            </div>
+            
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="lockOnSleep">
+                <span class="checkmark"></span>
+                Lock when computer sleeps
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Data Management -->
+        <div class="settings-section">
+          <h4>📊 Data Management</h4>
+          
+          <div class="data-actions">
+            <button id="exportDataBtn" class="btn-modern btn-secondary data-btn">
+              📤 Export Backup
+            </button>
+            <button id="importDataBtn" class="btn-modern btn-secondary data-btn">
+              📥 Import Backup
+            </button>
+            <button id="syncDataBtn" class="btn-modern btn-primary data-btn">
+              🔄 Sync Now
+            </button>
+          </div>
+
+          <!-- SIA Backup Management (shown only when SIA is selected) -->
+          <div id="siaBackupManagement" style="display: none; margin-top: 16px;">
+            <h5>🗄️ SIA Backup Management</h5>
+            <div class="data-actions">
+              <button id="listSiaBackupsBtn" class="btn-modern btn-secondary data-btn">
+                📋 List Backups
+              </button>
+              <button id="restoreSiaBackupBtn" class="btn-modern btn-secondary data-btn" disabled>
+                📥 Restore Selected
+              </button>
+            </div>
+            
+            <div id="siaBackupList" style="display: none; margin-top: 12px;">
+              <label style="display: block; margin-bottom: 8px; font-weight: 500;">Available Backups:</label>
+              <select id="siaBackupSelect" class="form-control" style="margin-bottom: 8px;">
+                <option value="">Select a backup to restore...</option>
+              </select>
+              <div id="siaBackupStatus" class="status-message"></div>
+            </div>
+          </div>
+          
+          <input type="file" id="importFileInput" style="display: none;" accept=".json,.encrypted">
+        </div>
+        
+        <!-- About Section -->
+        <div class="settings-section">
+          <h4>ℹ️ About</h4>
+          <div class="about-info">
+            <div class="about-item">
+              <span class="about-label">Version:</span>
+              <span class="about-value">1.0.0</span>
+            </div>
+            <div class="about-item">
+              <span class="about-label">Build:</span>
+              <span class="about-value" id="buildNumber">Loading...</span>
+            </div>
+            <div class="about-item">
+              <span class="about-label">Encryption:</span>
+              <span class="about-value">AES-256-GCM + Anti-Stealer</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Danger Zone -->
+        <div class="settings-section danger-zone">
+          <h4>⚠️ Danger Zone</h4>
+          <div class="danger-actions">
+            <button id="clearCacheBtn" class="btn-modern btn-warning">
+              🗑️ Clear Cache
+            </button>
+            <button id="logoutBtn" class="btn-modern btn-secondary">
+              🚪 Logout
+            </button>
+            <button id="resetDataBtn" class="btn-modern btn-danger">
+              💥 Reset All Data
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error/Success Messages Container -->
+  <div id="messageContainer" style="position: fixed; top: 10px; right: 10px; z-index: 2000;"></div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
